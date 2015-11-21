@@ -399,7 +399,7 @@ public class LobbyServerAccessorImpl extends AbstractServerAccessor implements L
   private void dispatchServerMessage(ServerCommand serverCommand) throws IOException {
     switch (serverCommand) {
       case PING:
-        logger.debug("Server PINGed");
+        logger.trace("Server PINGed");
         onServerPing();
         break;
 
@@ -545,13 +545,9 @@ public class LobbyServerAccessorImpl extends AbstractServerAccessor implements L
   }
 
   private void dispatchSocialInfo(SocialInfo socialInfo) {
-    if (socialInfo.getFriends() != null) {
-      onFriendListListener.onFriendList(socialInfo.getFriends());
-    } else if (socialInfo.getFoes() != null) {
-      onFoeListListener.onFoeList(socialInfo.getFoes());
-    } else if (socialInfo.getAutoJoin() != null) {
-      onJoinChannelsRequestListeners.forEach(listener -> listener.onJoinChannelsRequest(socialInfo.getAutoJoin()));
-    }
+    onFriendListListener.onFriendList(socialInfo.getFriends());
+    onFoeListListener.onFoeList(socialInfo.getFoes());
+    onJoinChannelsRequestListeners.forEach(listener -> listener.onJoinChannelsRequest(socialInfo.getAutoJoin()));
   }
 
   private void dispatchAuthenticationFailed(AuthenticationFailedMessage message) {

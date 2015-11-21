@@ -12,11 +12,23 @@ public class SocialInfo extends ServerMessage {
   private List<String> foes;
   private List<String> autojoin;
 
+  public List<String> getAutojoin() {
+    return autojoin;
+  }
+
+  public void setAutojoin(List<String> autojoin) {
+    this.autojoin = autojoin;
+  }
+
   /**
    * List of user names that are friends. May be {@code null}.
    */
   public List<String> getFriends() {
     return friends;
+  }
+
+  public void setFriends(List<String> friends) {
+    this.friends = friends;
   }
 
   /**
