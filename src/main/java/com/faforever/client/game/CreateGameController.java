@@ -198,25 +198,26 @@ public class CreateGameController {
     mapListView.setCellFactory(mapListCellFactory());
     mapListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue == null) {
-        mapNameLabel.setText("");
+        Platform.runLater(() -> mapNameLabel.setText(""));
         return;
       }
 
       preferencesService.getPreferences().setLastMap(newValue.getTechnicalName());
       preferencesService.storeInBackground();
 
-      String mapDisplayName = newValue.getDisplayName();
-      mapNameLabel.setText(newValue.getDisplayName());
-      mapImageView.setImage(mapService.loadLargePreview(mapDisplayName));
-      mapSizeLabel.setText(i18n.get("mapPreview.size", newValue.getSize()));
-      mapPlayersLabel.setText(i18n.get("mapPreview.maxPlayers", newValue.getPlayers()));
-      mapDescriptionLabel.setText(newValue.getDescription());
+      Platform.runLater(() -> {
+        mapNameLabel.setText(newValue.getDisplayName());
+        mapImageView.setImage(mapService.loadLargePreview(newValue.getTechnicalName()));
+        mapSizeLabel.setText(i18n.get("mapPreview.size", newValue.getSize()));
+        mapPlayersLabel.setText(i18n.get("mapPreview.maxPlayers", newValue.getPlayers()));
+        mapDescriptionLabel.setText(newValue.getDescription());
 
-      if (newValue.getHasAiMarkers()) {
-        mapAiMarkersLabel.setText(i18n.get("yes"));
-      } else {
-        mapAiMarkersLabel.setText(i18n.get("no"));
-      }
+        if (newValue.getHasAiMarkers()) {
+          mapAiMarkersLabel.setText(i18n.get("yes"));
+        } else {
+          mapAiMarkersLabel.setText(i18n.get("no"));
+        }
+      });
     });
   }
 
