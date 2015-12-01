@@ -1,5 +1,7 @@
 package com.faforever.client.config;
 
+import com.faforever.client.ThemeService;
+import com.faforever.client.ThemeServiceImpl;
 import com.faforever.client.achievements.AchievementService;
 import com.faforever.client.achievements.AchievementServiceImpl;
 import com.faforever.client.api.FafApiAccessor;
@@ -35,8 +37,6 @@ import com.faforever.client.legacy.UidService;
 import com.faforever.client.legacy.UnixUidService;
 import com.faforever.client.legacy.WindowsUidService;
 import com.faforever.client.legacy.htmlparser.HtmlParser;
-import com.faforever.client.legacy.map.LegacyMapVaultParser;
-import com.faforever.client.legacy.map.MapVaultParser;
 import com.faforever.client.legacy.proxy.Proxy;
 import com.faforever.client.legacy.proxy.ProxyImpl;
 import com.faforever.client.legacy.relay.LocalRelayServerImpl;
@@ -159,11 +159,6 @@ public class ServiceConfig {
       return new MockChatService();
     }
     return new PircBotXChatService();
-  }
-
-  @Bean
-  MapVaultParser mapVaultParser() {
-    return new LegacyMapVaultParser();
   }
 
   @Bean
@@ -358,4 +353,10 @@ public class ServiceConfig {
   Directory directory() {
     return new RAMDirectory();
   }
+
+  @Bean
+  ThemeService themeService() {
+    return new ThemeServiceImpl();
+  }
+
 }

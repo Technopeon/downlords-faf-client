@@ -2,6 +2,7 @@ package com.faforever.client.api;
 
 import com.faforever.client.config.CacheNames;
 import com.faforever.client.fx.HostService;
+import com.faforever.client.game.MapInfoBean;
 import com.faforever.client.mod.ModInfoBean;
 import com.faforever.client.preferences.PreferencesService;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
@@ -143,6 +144,12 @@ public class FafApiAccessorImpl implements FafApiAccessor {
     return getMany("/mods", Mod.class).stream()
         .map(ModInfoBean::fromModInfo)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public MapInfoBean findMapByName(String mapId) {
+    logger.debug("Searching map: {}", mapId);
+    return MapInfoBean.fromMap(getSingle("/maps/" + mapId, Map.class));
   }
 
   private Credential authorize(AuthorizationCodeFlow flow, String userId) throws IOException {

@@ -12,7 +12,6 @@ import com.faforever.client.preferences.PreferencesService;
 import com.faforever.client.stats.PlayerStatisticsMessageLobby;
 import com.faforever.client.stats.RatingInfo;
 import com.faforever.client.stats.StatisticsService;
-import com.faforever.client.util.AchievementUtil;
 import com.faforever.client.util.IdenticonUtil;
 import com.faforever.client.util.RatingUtil;
 import com.neovisionaries.i18n.CountryCode;
@@ -32,7 +31,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -219,7 +217,7 @@ public class UserInfoWindowController {
 
     usernameLabel.textProperty().bind(playerInfoBean.usernameProperty());
     countryImageView.setImage(countryFlagService.loadCountryFlag(playerInfoBean.getCountry()));
-    avatarImageView.setImage(IdenticonUtil.createIdenticon(playerInfoBean.getUsername()));
+    avatarImageView.setImage(IdenticonUtil.createIdenticon(playerInfoBean.getId()));
     gamesPlayedLabel.setText(String.format(locale, "%d", playerInfoBean.getNumberOfGames()));
     ratingLabelGlobal.setText(String.format(locale, "%d", RatingUtil.getGlobalRating(playerInfoBean)));
     ratingLabel1v1.setText(String.format(locale, "%d", RatingUtil.getGlobalRating(playerInfoBean)));
@@ -368,13 +366,10 @@ public class UserInfoWindowController {
       String mostRecentAchievementName = mostRecentAchievement.getName();
       String mostRecentAchievementDescription = mostRecentAchievement.getDescription();
 
-      String imageUrl = AchievementUtil.defaultIcon(preferencesService.getPreferences().getTheme(),
-          mostRecentAchievement.getRevealedIconUrl());
-
       Platform.runLater(() -> {
         mostRecentAchievementNameLabel.setText(mostRecentAchievementName);
         mostRecentAchievementDescriptionLabel.setText(mostRecentAchievementDescription);
-        mostRecentAchievementImageView.setImage(new Image(imageUrl, true));
+        mostRecentAchievementImageView.setImage(achievementService.getRevealedIcon(mostRecentAchievement));
       });
     }
 

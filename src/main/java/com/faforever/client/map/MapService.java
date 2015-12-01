@@ -1,12 +1,9 @@
 package com.faforever.client.map;
 
 import com.faforever.client.game.MapInfoBean;
-import com.faforever.client.legacy.map.Comment;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public interface MapService {
@@ -15,13 +12,11 @@ public interface MapService {
 
   Image loadLargePreview(String mapName);
 
-  CompletableFuture<List<MapInfoBean>> readMapVaultInBackground(int page, int maxEntries);
-
   ObservableList<MapInfoBean> getLocalMaps();
 
   MapInfoBean getMapInfoBeanLocallyFromName(String mapName);
 
-  MapInfoBean getMapInfoBeanFromVaultByName(String mapName);
+  MapInfoBean findMapByName(String mapId);
 
   boolean isOfficialMap(String mapName);
 
@@ -32,5 +27,4 @@ public interface MapService {
 
   CompletionStage<Void> download(String technicalMapName);
 
-  List<Comment> getComments(int mapId);
 }

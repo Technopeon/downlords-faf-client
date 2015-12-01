@@ -5,6 +5,7 @@ import com.faforever.client.api.FafApiAccessor;
 import com.faforever.client.api.Mod;
 import com.faforever.client.api.PlayerAchievement;
 import com.faforever.client.api.PlayerEvent;
+import com.faforever.client.game.MapInfoBean;
 import com.faforever.client.mod.ModInfoBean;
 
 import java.time.LocalDateTime;
@@ -51,5 +52,10 @@ public class MockFafApiAccessor implements FafApiAccessor {
         ModInfoBean.fromModInfo(new Mod("7-7-7", "Mod Number Seven", "Mod description Garlic", "Mock", LocalDateTime.now())),
         ModInfoBean.fromModInfo(new Mod("8-8-8", "Mod Number Eight", "Mod description Haricot bean", "Mock", LocalDateTime.now()))
     );
+  }
+
+  @Override
+  public MapInfoBean findMapByName(String mapId) {
+    return null;
   }
 }

@@ -3,7 +3,6 @@ package com.faforever.client.main;
 import com.faforever.client.cast.CastsController;
 import com.faforever.client.chat.ChatController;
 import com.faforever.client.fx.SceneFactory;
-import com.faforever.client.fx.WindowDecorator;
 import com.faforever.client.game.Faction;
 import com.faforever.client.game.GameService;
 import com.faforever.client.game.GamesController;
@@ -40,6 +39,7 @@ import com.faforever.client.task.PrioritizedTask;
 import com.faforever.client.task.TaskService;
 import com.faforever.client.update.ClientUpdateService;
 import com.faforever.client.user.UserService;
+import com.faforever.client.util.IdenticonUtil;
 import com.faforever.client.util.JavaFxUtil;
 import com.google.common.annotations.VisibleForTesting;
 import javafx.application.Platform;
@@ -412,19 +412,18 @@ public class MainController implements OnLobbyConnectedListener, OnLobbyConnecti
     lobbyService.setOnLobbyConnectingListener(this);
     lobbyService.setOnFafDisconnectedListener(this);
 
-    final WindowPrefs mainWindowPrefs = preferencesService.getPreferences().getMainWindow();
-
     sceneFactory.createScene(stage, mainRoot, true, MINIMIZE, MAXIMIZE_RESTORE, CLOSE);
 
+    final WindowPrefs mainWindowPrefs = preferencesService.getPreferences().getMainWindow();
     stage.setTitle(environment.getProperty("mainWindowTitle"));
     restoreState(mainWindowPrefs, stage);
-    stage.show();
 
     registerWindowListeners(stage, mainWindowPrefs);
 
     usernameButton.setText(userService.getUsername());
     // TODO no more e-mail address :(
 //    userImageView.setImage(gravatarService.getGravatar(userService.getEmail()));
+    userImageView.setImage(IdenticonUtil.createIdenticon(userService.getUid()));
 
     checkGamePortInBackground();
     gameUpdateService.checkForUpdateInBackground();
@@ -432,20 +431,6 @@ public class MainController implements OnLobbyConnectedListener, OnLobbyConnecti
   }
 
   private void restoreState(WindowPrefs mainWindowPrefs, Stage stage) {
-    stage.setWidth(mainWindowPrefs.getWidth());
-    stage.setHeight(mainWindowPrefs.getHeight());
-
-    if (mainWindowPrefs.getMaximized()) {
-      WindowDecorator.maximize(stage);
-    } else {
-      if (mainWindowPrefs.getX() < 0 && mainWindowPrefs.getY() < 0) {
-        JavaFxUtil.centerOnScreen(stage);
-      } else {
-        stage.setX(mainWindowPrefs.getX());
-        stage.setY(mainWindowPrefs.getY());
-      }
-    }
-
     String lastView = mainWindowPrefs.getLastView();
     if (lastView != null) {
       mainNavigation.getChildren().stream()
@@ -685,7 +670,7 @@ public class MainController implements OnLobbyConnectedListener, OnLobbyConnecti
     if (navigationButton == null) {
       return;
     }
-    setActiveNavigationButton((ButtonBase) menuItem.getParentPopup().getOwnerNode());
+    setActiveNavigationButton(navigationButton);
     preferencesService.getPreferences().getMainWindow().getLastChildViews().put(navigationButton.getId(), menuItem.getId());
     preferencesService.storeInBackground();
   }
@@ -718,7 +703,6 @@ public class MainController implements OnLobbyConnectedListener, OnLobbyConnecti
 
   @FXML
   void onMapsSelected(ActionEvent event) {
-    mapMapVaultController.setUpIfNecessary();
     setContent(mapMapVaultController.getRoot());
     setActiveNavigationButtonFromChild((MenuItem) event.getTarget());
   }

@@ -2,7 +2,6 @@ package com.faforever.client.config;
 
 import com.faforever.client.game.SearchExpansionTask;
 import com.faforever.client.map.DownloadMapTask;
-import com.faforever.client.map.MapVaultParseTask;
 import com.faforever.client.mod.InstallModTask;
 import com.faforever.client.mod.UninstallModTask;
 import com.faforever.client.patch.GitCheckGameUpdateTask;
@@ -63,12 +62,6 @@ public class TaskConfig {
   @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
   ImgurUploadTask imgurUploadTask() {
     return new ImgurUploadTask();
-  }
-
-  @Bean
-  @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-  MapVaultParseTask mapVaultParseTask() {
-    return new MapVaultParseTask();
   }
 
   @Bean

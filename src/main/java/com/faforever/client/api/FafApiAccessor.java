@@ -1,5 +1,6 @@
 package com.faforever.client.api;
 
+import com.faforever.client.game.MapInfoBean;
 import com.faforever.client.mod.ModInfoBean;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface FafApiAccessor {
   void authorize(int playerId);
 
   List<ModInfoBean> getMods();
+
+  MapInfoBean findMapByName(String mapId);
 }
