@@ -143,4 +143,5 @@ dependencies {
   compile 'org.apache.lucene:lucene-analyzers-common:5.3.1'
   compile 'org.apache.lucene:lucene-suggest:5.3.1'
   compile 'org.opentelecoms.ice:ice4j-fork:1.0+f.4'
+  compile 'org.luaj:luaj-jse:3.0.1'
 }
